@@ -22,7 +22,7 @@ void drawCandle (byte x, byte y)
 void stateMenuIntro()
 {
   globalCounter++;
-  sprites.drawSelfMasked(34, 4, T_arg, 0);
+  sprites.drawSelfMasked(49, 20, T_arg, 0);
   if (globalCounter > 180)
   {
     globalCounter = 0;
@@ -41,13 +41,13 @@ void stateMenuMain()
   }
   sprites.drawSelfMasked(16, 0, menuTitle, 0);
   sprites.drawSelfMasked(49, 26, menuItems, 0);
-  sprites.drawSelfMasked(89, 50, menuYesNo, arduboy.audio.enabled());
-  drawCandle(29, (menuSelection - 2) * 8);
-  for (byte i = 2; i < 6; i++)
+  sprites.drawSelfMasked(89, 42, menuYesNo, arduboy.audio.enabled());
+  drawCandle(29, (menuSelection - 3) * 8);
+  for (byte i = 3; i < 6; i++)
   {
     if (menuSelection != i) {
-      sprites.drawErase(49, (i * 8) + 10, menuShade, 0);
-      sprites.drawErase(82, (i * 8) + 10, menuShade, 0);
+      sprites.drawErase(49, (i * 8) + 2, menuShade, 0);
+      sprites.drawErase(82, (i * 8) + 2, menuShade, 0);
     }
   }
   if (showRunner)
@@ -55,7 +55,7 @@ void stateMenuMain()
     sprites.drawSelfMasked(runnerX, -2, spotLight, 0);
     drawRunner();
   }
-  if (arduboy.justPressed(UP_BUTTON) && (menuSelection > 2)) menuSelection--;
+  if (arduboy.justPressed(UP_BUTTON) && (menuSelection > 3)) menuSelection--;
   else if (arduboy.justPressed(DOWN_BUTTON) && (menuSelection < 5)) menuSelection++;
   else if (arduboy.justPressed(A_BUTTON | B_BUTTON))
   {

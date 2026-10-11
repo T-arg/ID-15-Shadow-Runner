@@ -1,9 +1,9 @@
 /*
-  SHADOW RUNNER: http://www.team-arg.org/shrun-manual.html
+  SHADOW RUNNER: https://t-arg.github.io/ID-15-Shadow-Runner/
 
-  Arduboy version 1.6 : http://www.team-arg.org/more-about.html
+  Arduboy version 1.6 : https://github.com/T-arg/ID-15-Shadow-Runner
 
-  MADE by TEAM a.r.g. : http://www.team-arg.org/more-about.html
+  MADE by TEAM a.r.g. : https://t-arg.github.io/
 
   2015 - JO3RI - Trodoss
 
