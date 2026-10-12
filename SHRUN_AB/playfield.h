@@ -132,6 +132,7 @@ checkScoreAndLevel()
     level += 1;
     nextLevelAt += 1000;
     if (level > 7) level = 7;
+    else sfx(sfxLevel, 1);
   }
   scorePlayer++;
 }
@@ -144,6 +145,7 @@ void checkInputs()
     {
       jumping = true;
       runnerFrame = RUNNER_JUMPING;
+      sfx(sfxJump, 1);
     }
   }
   else if (arduboy.justPressed(A_BUTTON | LEFT_BUTTON))
@@ -152,13 +154,31 @@ void checkInputs()
     {
       ducking = true;
       runnerFrame = RUNNER_DUCKING;
+      sfx(sfxSlide, 3);
     }
   }
-  else if (arduboy.justPressed(UP_BUTTON | DOWN_BUTTON | RIGHT_BUTTON)) gameState = STATE_GAME_PAUSE;
+  else if (arduboy.justPressed(UP_BUTTON | DOWN_BUTTON | RIGHT_BUTTON))
+  {
+    gameState = STATE_GAME_PAUSE;
+    sfx(sfxPause, 1);
+  }
+}
+
+// a hit lasts many frames: play its sound once
+byte hurtTimer = 0;
+
+void sfxHurt(const uint8_t *track, byte channel)
+{
+  if (!hurtTimer)
+  {
+    sfx(track, channel);
+    hurtTimer = 24;
+  }
 }
 
 void checkCollisions()
 {
+  if (hurtTimer) hurtTimer--;
   Rect runnerRect = {.x = runnerX + 8, .y = runnerY + 2, .width = 10, .height = 20};
 
   Rect stoneOneRect = {.x = itemX[ITEM_STONE_ONE] + 2, .y = STONES_Y + 4, .width = 11, .height = 12};
@@ -170,25 +190,25 @@ void checkCollisions()
   if ((showitems & B00000001) && arduboy.collide(runnerRect, stoneOneRect))
   {
     lifePlayer -= 4;
-    sound.tone(175, 100);
+    sfxHurt(sfxStone, 3);
   }
 
   if ((showitems & B00000010) && arduboy.collide(runnerRect, stoneTwoRect))
   {
     lifePlayer -= 4;
-    sound.tone(175, 100);
+    sfxHurt(sfxStone, 3);
   }
 
   if ((showitems & B00000100) && arduboy.collide(runnerRect, birdOneRect))
   {
     lifePlayer -= 2;
-    sound.tone(523, 50);
+    sfxHurt(sfxBird, 1);
   }
 
   if ((showitems & B00001000) && arduboy.collide(runnerRect, birdTwoRect))
   {
     lifePlayer -= 2;
-    sound.tone(523, 50);
+    sfxHurt(sfxBird, 1);
   }
 
   if ((showitems & B00100000) && arduboy.collide(runnerRect, extraLifeRect))
@@ -197,7 +217,7 @@ void checkCollisions()
     itemX[ITEM_EXTRA_LIFE] = 128;
     lifePlayer = 128;
     scorePlayer += 500;
-    sound.tone(750, 200);
+    sfx(sfxHeart, 1);
   }
 }
 
