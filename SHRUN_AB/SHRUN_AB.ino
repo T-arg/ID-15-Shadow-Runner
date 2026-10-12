@@ -1,13 +1,15 @@
 /*
   SHADOW RUNNER: https://t-arg.github.io/ID-15-Shadow-Runner/
 
-  Arduboy version 1.6 : https://github.com/T-arg/ID-15-Shadow-Runner
+  Arduboy version 2.0 : https://github.com/T-arg/ID-15-Shadow-Runner
 
   MADE by TEAM a.r.g. : https://t-arg.github.io/
 
   2015 - JO3RI - Trodoss
 
   Special thanks to Dreamer3 for helping with the conversion from Gamby
+
+  2026 - MUSIC and SOUND EFFECTS - JO3RI
 
   Game License: MIT : https://opensource.org/licenses/MIT
 
