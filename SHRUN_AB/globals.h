@@ -40,6 +40,8 @@ unsigned long scorePlayer;
 unsigned long nextLevelAt;
 byte level = LEVEL_TO_START_WITH;
 
+#define INTRO_DIV 2
+#include "arduboy_intro.h"
 #include "music.h"
 
 #endif

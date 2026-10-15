@@ -8,7 +8,6 @@
 #define ATM_FX_TREMOLO          0
 #define ATM_FX_GLISSANDO        0
 #define ATM_FX_NOTE_CUT         0
-#define ATM_FX_CUE              0
 #define ATM_FX_GOTO_ADV         0
 
 // functions: the sketch only uses ATM.play(), ATM.stop() and ATM.playSfx()
@@ -18,7 +17,6 @@
 #define ATM_FUNC_MUTE           0
 #define ATM_FUNC_UNMUTE         0
 #define ATM_FUNC_TEMPO          0
-#define ATM_FUNC_CUE            0
 
 // octaves that are NOT used (C2-B2 = 2 ... C7-D7 = 7)
 #define ATM_OCTAVE_6           0

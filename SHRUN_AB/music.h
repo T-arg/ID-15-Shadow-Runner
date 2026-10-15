@@ -20,7 +20,7 @@
 #define MV(v) ((v) * MUSIC_VOL_PCT / 100)
 #define MS(n) ((uint8_t)-((((n) * MUSIC_VOL_PCT + 50) / 100) < 1 ? 1 : (((n) * MUSIC_VOL_PCT + 50) / 100)))
 
-// bytes per song:  shadowTitle 480, shadowRun 441, shadowOver 76  (total 997)
+// bytes per song:  shadowTitle 418, shadowRun 385, shadowOver 76  (total 879)
 // bytes of effects: 87
 
 // =====================================================================================================================
@@ -32,10 +32,10 @@
 // E minor, slow and dreamy: soft harp arpeggios, a long vibrato lead, a low saw pad and a hushed beat.
 // Em C G D | Em C Am B  then  C G D Em | C Am B B  then the bridge  Am F C G | Am F Em B (the harp steps aside for a second voice).
 // Tempo 24, 4-bar intro, 24-bar loop (1536 ticks). 100 % volume.
-// 480 bytes
+// 418 bytes
 // ---------------------------------------------------------------------------
-Song shadowTitle[] = {          // total song in bytes = 480
-  0x0A,                         // Number of tracks
+Song shadowTitle[] = {          // total song in bytes = 418
+  0x0F,                         // Number of tracks
   0x00, 0x00,                   // Address of track 0   //0  drumsIntro
   0x06, 0x00,                   // Address of track 1   //6  drums
   0x0D, 0x00,                   // Address of track 2   //13  pair
@@ -43,9 +43,14 @@ Song shadowTitle[] = {          // total song in bytes = 480
   0x26, 0x00,                   // Address of track 4   //38  leadIntro
   0x39, 0x00,                   // Address of track 5   //57  lead
   0xC6, 0x00,                   // Address of track 6   //198  chordsIntro
-  0xE0, 0x00,                   // Address of track 7   //224  chords
-  0x51, 0x01,                   // Address of track 8   //337  bassIntro
-  0x61, 0x01,                   // Address of track 9   //353  bass
+  0xD0, 0x00,                   // Address of track 7   //208  chords
+  0x0D, 0x01,                   // Address of track 8   //269  bassIntro
+  0x1A, 0x01,                   // Address of track 9   //282  bass
+  0x3D, 0x01,                   // Address of track 10   //317  sh0
+  0x48, 0x01,                   // Address of track 11   //328  sh1
+  0x5F, 0x01,                   // Address of track 12   //351  sh2
+  0x70, 0x01,                   // Address of track 13   //368  sh3
+  0x76, 0x01,                   // Address of track 14   //374  sh4
 
   0x04,                         // Channel 0 entry track (leadIntro)
   0x06,                         // Channel 1 entry track (chordsIntro)
@@ -237,67 +242,22 @@ Song shadowTitle[] = {          // total song in bytes = 480
   ATM_DELAY(32),
   ATM_GOTO(5),   // -> lead
 
-  //"Track 6" chordsIntro  [26 bytes]
+  //"Track 6" chordsIntro  [10 bytes]
   ATM_VOL(28),
   ATM_SL_VOL((uint8_t)-1),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_E3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_C4,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_E3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_C4,
-  ATM_DELAY(64),
+  ATM_GOTO(10),   // -> sh0
+  ATM_GOTO(10),   // -> sh0
   ATM_GOTO(7),   // -> chords
 
-  //"Track 7" chords  [113 bytes]
+  //"Track 7" chords  [61 bytes]
   ATM_VIB_OFF,
   ATM_VOL(28),
   ATM_SL_VOL((uint8_t)-1),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_E3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
+  ATM_GOTO(10),   // -> sh0
+  ATM_GOTO(12),   // -> sh2
   ATM_NOTE_C4,
   ATM_DELAY(64),
-  ATM_NOTE_G3,
-  ATM_DELAY(64),
-  ATM_NOTE_D4,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_E3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_C4,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_A3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_B3,
-  ATM_DELAY(64),
-  ATM_NOTE_C4,
-  ATM_DELAY(64),
-  ATM_NOTE_G3,
-  ATM_DELAY(64),
-  ATM_NOTE_D4,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_E3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_C4,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_A3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_B3,
-  ATM_DELAY(64),
+  ATM_GOTO(12),   // -> sh2
   ATM_NOTE_B3,
   ATM_DELAY(64),
   ATM_ARP_OFF,
@@ -342,7 +302,7 @@ Song shadowTitle[] = {          // total song in bytes = 480
   ATM_DELAY(32),
   ATM_GOTO(7),   // -> chords
 
-  //"Track 8" bassIntro  [16 bytes]
+  //"Track 8" bassIntro  [13 bytes]
   ATM_VOL(46),
   ATM_SL_VOL((uint8_t)-1),
   ATM_DELAY(64),
@@ -350,24 +310,49 @@ Song shadowTitle[] = {          // total song in bytes = 480
   ATM_NOTE_E2,
   ATM_DELAY(48),
   ATM_NOTE_B2,
-  ATM_DELAY(16),
-  ATM_NOTE_C2,
+  ATM_GOTO(13),   // -> sh3
+  ATM_GOTO(9),   // -> bass
+
+  //"Track 9" bass  [35 bytes]
+  ATM_VOL(46),
+  ATM_SL_VOL((uint8_t)-1),
+  ATM_NOTE_E2,
   ATM_DELAY(48),
+  ATM_NOTE_B2,
+  ATM_GOTO(11),   // -> sh1
+  ATM_GOTO(11),   // -> sh1
+  ATM_DELAY(16),
+  ATM_NOTE_B2,
+  ATM_DELAY(48),
+  ATM_NOTE_F3_,
+  ATM_GOTO(14),   // -> sh4
+  ATM_GOTO(13),   // -> sh3
   ATM_NOTE_G2,
+  ATM_DELAY(48),
+  ATM_NOTE_D3,
+  ATM_GOTO(14),   // -> sh4
+  ATM_DELAY(16),
+  ATM_NOTE_E2,
+  ATM_DELAY(48),
+  ATM_NOTE_B2,
+  ATM_DELAY(16),
+  ATM_NOTE_B2,
+  ATM_DELAY(48),
+  ATM_NOTE_F3_,
   ATM_DELAY(16),
   ATM_GOTO(9),   // -> bass
 
-  //"Track 9" bass  [102 bytes]
-  ATM_VOL(46),
-  ATM_SL_VOL((uint8_t)-1),
-  ATM_NOTE_E2,
-  ATM_DELAY(48),
-  ATM_NOTE_B2,
-  ATM_DELAY(16),
-  ATM_NOTE_C2,
-  ATM_DELAY(48),
-  ATM_NOTE_G2,
-  ATM_DELAY(16),
+  //"Track 10" sh0  [11 bytes]
+  ATM_ARP(0x34, 0x24),
+  ATM_NOTE_E3,
+  ATM_DELAY(64),
+  ATM_ARP(0x43, 0x24),
+  ATM_NOTE_C4,
+  ATM_DELAY(64),
+  ATM_RETURN,
+
+  //"Track 11" sh1  [23 bytes]
+  ATM_GOTO(13),   // -> sh3
   ATM_NOTE_G2,
   ATM_DELAY(48),
   ATM_NOTE_D3,
@@ -379,11 +364,7 @@ Song shadowTitle[] = {          // total song in bytes = 480
   ATM_NOTE_E2,
   ATM_DELAY(48),
   ATM_NOTE_B2,
-  ATM_DELAY(16),
-  ATM_NOTE_C2,
-  ATM_DELAY(48),
-  ATM_NOTE_G2,
-  ATM_DELAY(16),
+  ATM_GOTO(13),   // -> sh3
   ATM_NOTE_A2,
   ATM_DELAY(48),
   ATM_NOTE_E3,
@@ -391,38 +372,31 @@ Song shadowTitle[] = {          // total song in bytes = 480
   ATM_NOTE_B2,
   ATM_DELAY(48),
   ATM_NOTE_F3_,
+  ATM_RETURN,
+
+  //"Track 12" sh2  [17 bytes]
+  ATM_NOTE_G3,
+  ATM_DELAY(64),
+  ATM_NOTE_D4,
+  ATM_DELAY(64),
+  ATM_GOTO(10),   // -> sh0
+  ATM_ARP(0x34, 0x24),
+  ATM_NOTE_A3,
+  ATM_DELAY(64),
+  ATM_ARP(0x43, 0x24),
+  ATM_NOTE_B3,
+  ATM_DELAY(64),
+  ATM_RETURN,
+
+  //"Track 13" sh3  [6 bytes]
   ATM_DELAY(16),
   ATM_NOTE_C2,
   ATM_DELAY(48),
   ATM_NOTE_G2,
   ATM_DELAY(16),
-  ATM_NOTE_G2,
-  ATM_DELAY(48),
-  ATM_NOTE_D3,
-  ATM_DELAY(16),
-  ATM_NOTE_D2,
-  ATM_DELAY(48),
-  ATM_NOTE_A2,
-  ATM_DELAY(16),
-  ATM_NOTE_E2,
-  ATM_DELAY(48),
-  ATM_NOTE_B2,
-  ATM_DELAY(16),
-  ATM_NOTE_C2,
-  ATM_DELAY(48),
-  ATM_NOTE_G2,
-  ATM_DELAY(16),
-  ATM_NOTE_A2,
-  ATM_DELAY(48),
-  ATM_NOTE_E3,
-  ATM_DELAY(16),
-  ATM_NOTE_B2,
-  ATM_DELAY(48),
-  ATM_NOTE_F3_,
-  ATM_DELAY(16),
-  ATM_NOTE_B2,
-  ATM_DELAY(48),
-  ATM_NOTE_F3_,
+  ATM_RETURN,
+
+  //"Track 14" sh4  [9 bytes]
   ATM_DELAY(16),
   ATM_NOTE_A2,
   ATM_DELAY(48),
@@ -431,32 +405,7 @@ Song shadowTitle[] = {          // total song in bytes = 480
   ATM_NOTE_F2,
   ATM_DELAY(48),
   ATM_NOTE_C3,
-  ATM_DELAY(16),
-  ATM_NOTE_C2,
-  ATM_DELAY(48),
-  ATM_NOTE_G2,
-  ATM_DELAY(16),
-  ATM_NOTE_G2,
-  ATM_DELAY(48),
-  ATM_NOTE_D3,
-  ATM_DELAY(16),
-  ATM_NOTE_A2,
-  ATM_DELAY(48),
-  ATM_NOTE_E3,
-  ATM_DELAY(16),
-  ATM_NOTE_F2,
-  ATM_DELAY(48),
-  ATM_NOTE_C3,
-  ATM_DELAY(16),
-  ATM_NOTE_E2,
-  ATM_DELAY(48),
-  ATM_NOTE_B2,
-  ATM_DELAY(16),
-  ATM_NOTE_B2,
-  ATM_DELAY(48),
-  ATM_NOTE_F3_,
-  ATM_DELAY(16),
-  ATM_GOTO(9),   // -> bass
+  ATM_RETURN,
 
 };
 
@@ -465,17 +414,25 @@ Song shadowTitle[] = {          // total song in bytes = 480
 // A minor, a dark chase: gallop bass, a driving soft beat, slow harp arpeggios and a long-note lead.
 // Am F C G | Am F Dm E  then  F C G Am | F Dm E E  then the bridge  Dm Am Bb F | Dm Am E E.
 // Tempo 36, 24-bar loop (1536 ticks). 60 % volume.
-// 441 bytes
+// 385 bytes
 // ---------------------------------------------------------------------------
-Song shadowRun[] = {          // total song in bytes = 441
-  0x07,                         // Number of tracks
+Song shadowRun[] = {          // total song in bytes = 385
+  0x0F,                         // Number of tracks
   0x00, 0x00,                   // Address of track 0   //0  drums
   0x09, 0x00,                   // Address of track 1   //9  pair
   0x1C, 0x00,                   // Address of track 2   //28  fill
   0x22, 0x00,                   // Address of track 3   //34  lead
-  0xCF, 0x00,                   // Address of track 4   //207  chords
-  0x2F, 0x01,                   // Address of track 5   //303  bar
-  0x40, 0x01,                   // Address of track 6   //320  bass
+  0xBC, 0x00,                   // Address of track 4   //188  chords
+  0xDB, 0x00,                   // Address of track 5   //219  bar
+  0xE0, 0x00,                   // Address of track 6   //224  bass
+  0x0A, 0x01,                   // Address of track 7   //266  sh0
+  0x23, 0x01,                   // Address of track 8   //291  sh1
+  0x37, 0x01,                   // Address of track 9   //311  sh2
+  0x3D, 0x01,                   // Address of track 10   //317  sh3
+  0x43, 0x01,                   // Address of track 11   //323  sh4
+  0x4A, 0x01,                   // Address of track 12   //330  sh5
+  0x51, 0x01,                   // Address of track 13   //337  sh6
+  0x55, 0x01,                   // Address of track 14   //341  sh7
 
   0x03,                         // Channel 0 entry track (lead)
   0x04,                         // Channel 1 entry track (chords)
@@ -508,15 +465,11 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_DELAY(32),
   ATM_RETURN,
 
-  //"Track 3" lead  [173 bytes]
+  //"Track 3" lead  [154 bytes]
   ATM_VOL(MV(42)),
   ATM_SL_VOL(MS(1)),
   ATM_VIB(2, 3),
-  ATM_NOTE_A4,
-  ATM_DELAY(16),
-  ATM_NOTE_C5,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
+  ATM_GOTO(9),   // -> sh2
   ATM_DELAY(24),
   ATM_NOTE_D5,
   ATM_DELAY(8),
@@ -527,13 +480,9 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_NOTE_F4,
   ATM_DELAY(16),
   ATM_NOTE_A4,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
-  ATM_DELAY(16),
+  ATM_GOTO(13),   // -> sh6
   ATM_NOTE_G5,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
-  ATM_DELAY(16),
+  ATM_GOTO(13),   // -> sh6
   ATM_NOTE_C5,
   ATM_DELAY(16),
   ATM_NOTE_D5,
@@ -542,11 +491,7 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_DELAY(8),
   ATM_NOTE_G4,
   ATM_DELAY(32),
-  ATM_NOTE_A4,
-  ATM_DELAY(16),
-  ATM_NOTE_C5,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
+  ATM_GOTO(9),   // -> sh2
   ATM_DELAY(32),
   ATM_NOTE_F5,
   ATM_DELAY(24),
@@ -559,9 +504,7 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_NOTE_D5,
   ATM_DELAY(16),
   ATM_NOTE_F5,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
-  ATM_DELAY(16),
+  ATM_GOTO(13),   // -> sh6
   ATM_NOTE_D5,
   ATM_DELAY(16),
   ATM_NOTE_G4_,
@@ -574,16 +517,10 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_DELAY(8),
   ATM_NOTE_C5,
   ATM_DELAY(32),
-  ATM_NOTE_A4,
-  ATM_DELAY(16),
-  ATM_NOTE_C5,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
+  ATM_GOTO(9),   // -> sh2
   ATM_DELAY(32),
   ATM_NOTE_G5,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
-  ATM_DELAY(16),
+  ATM_GOTO(13),   // -> sh6
   ATM_NOTE_D5,
   ATM_DELAY(16),
   ATM_NOTE_G5,
@@ -609,9 +546,7 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_NOTE_D5,
   ATM_DELAY(16),
   ATM_NOTE_F5,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
-  ATM_DELAY(16),
+  ATM_GOTO(13),   // -> sh6
   ATM_NOTE_G4_,
   ATM_DELAY(16),
   ATM_NOTE_B4,
@@ -628,11 +563,7 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_DELAY(8),
   ATM_NOTE_D5,
   ATM_DELAY(16),
-  ATM_NOTE_A4,
-  ATM_DELAY(16),
-  ATM_NOTE_C5,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
+  ATM_GOTO(9),   // -> sh2
   ATM_DELAY(16),
   ATM_NOTE_A4,
   ATM_DELAY(32),
@@ -657,9 +588,7 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_NOTE_A5,
   ATM_DELAY(32),
   ATM_NOTE_G5,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
-  ATM_DELAY(16),
+  ATM_GOTO(13),   // -> sh6
   ATM_NOTE_C5,
   ATM_DELAY(32),
   ATM_NOTE_B4,
@@ -667,9 +596,7 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_NOTE_G4_,
   ATM_DELAY(16),
   ATM_NOTE_B4,
-  ATM_DELAY(16),
-  ATM_NOTE_E5,
-  ATM_DELAY(16),
+  ATM_GOTO(13),   // -> sh6
   ATM_NOTE_D5,
   ATM_DELAY(16),
   ATM_NOTE_B4,
@@ -678,82 +605,120 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_DELAY(32),
   ATM_GOTO(3),   // -> lead
 
-  //"Track 4" chords  [96 bytes]
+  //"Track 4" chords  [31 bytes]
   ATM_VOL(MV(26)),
   ATM_SL_VOL(MS(1)),
   ATM_ARP(0x34, 0x24),
-  ATM_NOTE_A3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_F3,
-  ATM_DELAY(64),
-  ATM_NOTE_C4,
-  ATM_DELAY(64),
-  ATM_NOTE_G3,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_A3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_F3,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_D4,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
+  ATM_GOTO(10),   // -> sh3
+  ATM_GOTO(8),   // -> sh1
+  ATM_GOTO(8),   // -> sh1
   ATM_NOTE_E3,
-  ATM_DELAY(64),
-  ATM_NOTE_F3,
-  ATM_DELAY(64),
-  ATM_NOTE_C4,
-  ATM_DELAY(64),
-  ATM_NOTE_G3,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_A3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_F3,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_D4,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
-  ATM_NOTE_E3,
-  ATM_DELAY(64),
-  ATM_NOTE_E3,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_D4,
-  ATM_DELAY(64),
-  ATM_NOTE_A3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
+  ATM_GOTO(11),   // -> sh4
+  ATM_GOTO(10),   // -> sh3
   ATM_NOTE_A3_,
   ATM_DELAY(64),
   ATM_NOTE_F3,
-  ATM_DELAY(64),
-  ATM_ARP(0x34, 0x24),
-  ATM_NOTE_D4,
-  ATM_DELAY(64),
-  ATM_NOTE_A3,
-  ATM_DELAY(64),
-  ATM_ARP(0x43, 0x24),
+  ATM_GOTO(11),   // -> sh4
+  ATM_GOTO(10),   // -> sh3
   ATM_NOTE_E3,
   ATM_DELAY(64),
   ATM_NOTE_E3,
   ATM_DELAY(64),
   ATM_GOTO(4),   // -> chords
 
-  //"Track 5" bar  [17 bytes]
-  ATM_NOTE_A2,
-  ATM_DELAY(8),
-  ATM_NOTE_A2,
-  ATM_DELAY(8),
+  //"Track 5" bar  [5 bytes]
+  ATM_GOTO(14),   // -> sh7
+  ATM_GOTO(14),   // -> sh7
+  ATM_RETURN,
+
+  //"Track 6" bass  [42 bytes]
+  ATM_VOL(MV(56)),
+  ATM_SL_VOL(MS(4)),
+  ATM_SET_TRA(0),
+  ATM_GOTO(7),   // -> sh0
+  ATM_GOTO(7),   // -> sh0
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA((uint8_t)-5),
+  ATM_GOTO(12),   // -> sh5
+  ATM_SET_TRA(0),
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA(1),
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA((uint8_t)-4),
+  ATM_GOTO(12),   // -> sh5
+  ATM_SET_TRA(0),
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA((uint8_t)-5),
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA((uint8_t)-5),
+  ATM_GOTO(5),   // -> bar
+  ATM_GOTO(6),   // -> bass
+
+  //"Track 7" sh0  [25 bytes]
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA((uint8_t)-4),
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA(3),
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA((uint8_t)-2),
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA(0),
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA((uint8_t)-4),
+  ATM_GOTO(12),   // -> sh5
+  ATM_SET_TRA((uint8_t)-5),
+  ATM_RETURN,
+
+  //"Track 8" sh1  [20 bytes]
+  ATM_NOTE_F3,
+  ATM_DELAY(64),
+  ATM_NOTE_C4,
+  ATM_DELAY(64),
+  ATM_NOTE_G3,
+  ATM_DELAY(64),
+  ATM_ARP(0x34, 0x24),
+  ATM_GOTO(10),   // -> sh3
+  ATM_NOTE_F3,
+  ATM_GOTO(11),   // -> sh4
+  ATM_ARP(0x43, 0x24),
+  ATM_NOTE_E3,
+  ATM_DELAY(64),
+  ATM_RETURN,
+
+  //"Track 9" sh2  [6 bytes]
+  ATM_NOTE_A4,
+  ATM_DELAY(16),
+  ATM_NOTE_C5,
+  ATM_DELAY(16),
+  ATM_NOTE_E5,
+  ATM_RETURN,
+
+  //"Track 10" sh3  [6 bytes]
   ATM_NOTE_A3,
-  ATM_DELAY(8),
-  ATM_NOTE_A2,
-  ATM_DELAY(8),
+  ATM_DELAY(64),
+  ATM_ARP(0x43, 0x24),
+  ATM_RETURN,
+
+  //"Track 11" sh4  [7 bytes]
+  ATM_DELAY(64),
+  ATM_ARP(0x34, 0x24),
+  ATM_NOTE_D4,
+  ATM_DELAY(64),
+  ATM_RETURN,
+
+  //"Track 12" sh5  [7 bytes]
+  ATM_GOTO(5),   // -> bar
+  ATM_SET_TRA(5),
+  ATM_GOTO(5),   // -> bar
+  ATM_RETURN,
+
+  //"Track 13" sh6  [4 bytes]
+  ATM_DELAY(16),
+  ATM_NOTE_E5,
+  ATM_DELAY(16),
+  ATM_RETURN,
+
+  //"Track 14" sh7  [9 bytes]
   ATM_NOTE_A2,
   ATM_DELAY(8),
   ATM_NOTE_A2,
@@ -763,59 +728,6 @@ Song shadowRun[] = {          // total song in bytes = 441
   ATM_NOTE_A2,
   ATM_DELAY(8),
   ATM_RETURN,
-
-  //"Track 6" bass  [102 bytes]
-  ATM_VOL(MV(56)),
-  ATM_SL_VOL(MS(4)),
-  ATM_SET_TRA(0),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-4),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(3),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-2),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(0),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-4),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(5),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-5),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-4),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(3),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-2),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(0),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-4),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(5),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-5),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-5),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(5),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(0),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(1),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-4),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(5),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA(0),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-5),
-  ATM_GOTO(5),   // -> bar
-  ATM_SET_TRA((uint8_t)-5),
-  ATM_GOTO(5),   // -> bar
-  ATM_GOTO(6),   // -> bass
 
 };
 
@@ -941,7 +853,7 @@ void musicUpdate()
   byte want = MUSIC_OFF;
   if (arduboy.audio.enabled())
   {
-    if (gameState >= STATE_MENU_MAIN && gameState <= STATE_MENU_SOUNDFX) want = MUSIC_TITLE;
+    if ((gameState >= STATE_MENU_MAIN && gameState <= STATE_MENU_SOUNDFX) || (gameState == STATE_MENU_INTRO && introLetter > INTRO_LETTERS)) want = MUSIC_TITLE;
     else if (gameState >= STATE_GAME_INIT_LEVEL && gameState <= STATE_GAME_PAUSE) want = MUSIC_GAME;
     else if (gameState == STATE_GAME_OVER) want = MUSIC_OVER;
   }
